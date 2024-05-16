@@ -12,7 +12,9 @@ import logging
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
+    """ filter_datum """
     pattern = '|'.join(fields)
     return re.sub(
         r'(' + pattern + r')=\S*?' + re.escape(separator),
@@ -22,7 +24,7 @@ def filter_datum(fields: List[str], redaction: str, message: str, separator: str
 
 
 class RedactingFormatter(logging.Formatter):
-    """ 
+    """
         RedactingFormatter class
     """
 
@@ -43,7 +45,7 @@ class RedactingFormatter(logging.Formatter):
 
 
 def get_logger() -> logging.Logger:
-    ''' 
+    '''
         logger function
     '''
     log = logging.getLogger('user_data')
@@ -59,7 +61,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    ''' 
+    '''
         db function
     '''
     connection_db = mysql.connector.connection.MySQLConnection(

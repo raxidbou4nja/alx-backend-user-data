@@ -4,7 +4,6 @@ Module of Auth views
 """
 from flask import request
 from typing import List, TypeVar
-from api.v1.views import app_views
 import fnmatch
 
 

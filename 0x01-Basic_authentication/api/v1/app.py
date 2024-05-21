@@ -14,6 +14,13 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
+auth_type = getenv('AUTH_TYPE', 'default')
+if auth_type == "basic_auth":
+    auth = BasicAuth()
+else:
+    auth = Auth()
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler

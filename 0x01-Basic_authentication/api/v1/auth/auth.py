@@ -5,6 +5,7 @@ Module of Auth views
 from flask import request
 from typing import List, TypeVar
 from api.v1.views import app_views
+import fnmatch
 
 
 class Auth:
@@ -13,11 +14,14 @@ class Auth:
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
     """ require_auth
     """
-    if path is None or excluded_paths is None or len(excluded_paths) == 0:
+    if path is None:
+        return True
+
+    if excluded_paths is None or not excluded_paths:
         return True
 
     for excluded_path in excluded_paths:
-        if path.startswith(excluded_path):
+        if fnmatch.fnmatch(path, excluded_path):
             return False
 
     return True

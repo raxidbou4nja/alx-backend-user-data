@@ -9,8 +9,8 @@ from api.v1.auth.auth import Auth
 class BasicAuth(Auth):
     """ Basic Auth class
     """
-    def extract_base64_authorization_header(
-            self, authorization_header: str) -> str:
+    def decode_base64_authorization_header(
+            self, base64_authorization_header: str) -> str:
         """ extract_base64_authorization_header """
         if authorization_header is None or not \
                 isinstance(authorization_header, str):
@@ -22,10 +22,10 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
         """ decode_base64_authorization_header """
-        if base64_authorization_header is None or \
-        type(base64_authorization_header) is not str:
+        if not isinstance(base64_authorization_header, str):
             return None
         try:
-            return base64.b64decode(base64_authorization_header).decode('utf-8')
+            decodeit = base64.b64decode(base64_authorization_header)
+            return decodeit.decode('utf-8')
         except Exception:
             return None

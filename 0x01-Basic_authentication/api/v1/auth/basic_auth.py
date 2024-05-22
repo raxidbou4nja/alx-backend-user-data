@@ -22,10 +22,15 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
         """ decode_base64_authorization_header """
+        if base64_authorization_header is None:
+            return None
         if not isinstance(base64_authorization_header, str):
             return None
         try:
-            decodeit = base64.b64decode(base64_authorization_header)
-            return decodeit.decode('utf-8')
-        except Exception:
+            decoded = base64.b64decode(
+                base64_authorization_header,
+                validate=True
+            )
+            return decoded.decode('utf-8')
+        except (binascii.Error, UnicodeDecodeError):
             return None

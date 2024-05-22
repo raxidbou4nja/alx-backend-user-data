@@ -13,8 +13,9 @@ class BasicAuth(Auth):
             self, authorization_header: str) -> str:
         """ extract_base64_authorization_header
         """
-        if (base64_authorization_header is None or
-                not isinstance(base64_authorization_header, str)):
+        if base64_authorization_header is None:
+            return None
+        if type(base64_authorization_header) is not str:
             return None
         if authorization_header[:6] != 'Basic ':
             return None
@@ -23,7 +24,9 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
         """ decode_base64_authorization_header """
-        if not isinstance(base64_authorization_header, str):
+        if base64_authorization_header is None:
+            return None
+        if type(base64_authorization_header) is not str:
             return None
         try:
             decodeit = base64.b64decode(base64_authorization_header)

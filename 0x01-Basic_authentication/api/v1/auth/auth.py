@@ -5,6 +5,7 @@ Module of Auth views
 from flask import request
 from typing import List, TypeVar
 from api.v1.views import app_views
+import fnmatch
 
 
 class Auth:
@@ -17,8 +18,9 @@ class Auth:
             return True
         if path[-1] != '/':
             path += '/'
-        if path in excluded_paths:
-            return False
+        for pattern in excluded_paths:
+            if fnmatch.fnmatch(path, pattern):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module of SessionAuth views
+SessionAuth views
 """
 from api.v1.views import app_views
 from models.user import User
@@ -14,8 +14,6 @@ sa = SessionAuth()
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """ POST /api/v1/auth_session/login
-    Return:
-      - the status of the API
     """
     email = request.form.get('email')
     password = request.form.get('password')
@@ -35,8 +33,6 @@ def login() -> str:
 @app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
 def logout() -> str:
     """ DELETE /api/v1/auth_session/logout
-    Return:
-      - the status of the API
     """
     if sa.destroy_session(request):
         return jsonify({}), 200

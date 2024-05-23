@@ -6,15 +6,6 @@ from flask import abort, jsonify, request
 from models.user import User
 
 
-@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
-def view_me() -> str:
-    """ GET /api/v1/users/me
-    Return:
-      - User object JSON represented
-    """
-    return jsonify(request.current_user.to_json())
-
-
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def view_all_users() -> str:
     """ GET /api/v1/users

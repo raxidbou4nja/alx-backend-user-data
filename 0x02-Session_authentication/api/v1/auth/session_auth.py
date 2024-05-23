@@ -50,7 +50,7 @@ class SessionAuth(Auth):
             return None
         session_name = os.getenv('SESSION_NAME')
         return request.cookies.get(session_name)
-    
+
     def current_user(self, request=None) -> TypeVar('User'):
         """ current_user
         """

@@ -19,13 +19,3 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     session_id = Column(String, nullable=True)
     reset_token = Column(String, nullable=True)
-
-    def __str__(self):
-        """ String representation of the user
-        """
-        return self.email
-
-    def __repr__(self):
-        """ String representation of the user
-        """
-        return self.email

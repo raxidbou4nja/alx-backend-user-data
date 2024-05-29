@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
 """
-DB class
+DB module
 """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.session import Session
+
 from user import Base, User
-import bcrypt
-import uuid
 
 
 class DB:
-    """
-    DB class
+    """DB class
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize a new DB instance
         """
-        Constructor
-        """
-        self._engine = create_engine('sqlite:///a.db', echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=True)
+        Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
-        self._session = sessionmaker(bind=self._engine)
+        self.__session = None
+
+    @property
+    def _session(self) -> Session:
+        """Memoized session object
+        """
+        if self.__session is None:
+            DBSession = sessionmaker(bind=self._engine)
+            self.__session = DBSession()
+        return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
+        """Add a user to the database
         """
-        Add a user
-        """
-        session = self._session()
-        new_user = User(email=email, hashed_password=hashed_password)
-        session.add(new_user)
-        session.commit()
-        return new_user
+        user = User(email=email, hashed_password=hashed_password)
+        self._session.add(user)
+        self._session.commit()
+        return user
